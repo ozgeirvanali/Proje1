@@ -1,0 +1,104 @@
+from tkinter import *
+from tkinter import messagebox
+import pandas as pd
+import numpy as np
+
+pencere = Tk()
+pencere.wm_geometry("440x300")
+pencere.wm_title("Not Hesaplama Aracı")
+
+veriler = []
+
+
+def excele_aktar():
+    sutun_isimleri = ["Ad-Soyad", "Okul-No", "Ortalama ", "Geçti-Kaldı Durumu "]
+    numpy_veri= np.array(veriler)
+    veriseti = pd.DataFrame(data=numpy_veri, columns=sutun_isimleri)
+    print(veriseti)
+    veriseti.to_excel('./durumlar.xlsx')
+
+
+def hesapla():
+    """   import pdb;
+       pdb.set_trace()
+    """
+    ad_soyad = ad_soyad_entry.get()
+    okul_no = okul_no_entry.get()
+    not1 = int(sinav1Entry.get())
+    not2 = int(sinav2Entry.get())
+    ortalama = int(not1) * (4 / 10) + int(not2) * (6 / 10)
+    message: str = " "
+    durum: str = ""
+    if ortalama < 45:
+        message = "Ortalamanız:" + str(ortalama)
+        durum = "FF-KALDINIZ"
+
+    elif (ortalama >= 45) and (ortalama < 48):
+        message = "ortalamanız: " + str(ortalama)
+        durum = "DD-KALDINIZ"
+
+    elif (ortalama >= 48) and (ortalama < 53):
+        durum = "DC-KALDINIZ"
+        message = "Ortalamanız: " + str(ortalama)
+
+    elif (ortalama >= 53) and (ortalama < 56):
+        message = "Ortalamanız: " + str(ortalama)
+        durum = "CC-GEÇTİNİZ"
+
+    elif (ortalama >= 56) and (ortalama < 60):
+        message = "Ortalamanız: " + str(ortalama)
+        durum = "CB-GEÇTİNİZ"
+
+    elif (ortalama >= 60) and (ortalama < 69):
+        message = "Ortalamanız:" + str(ortalama)
+        durum = "BC-GEÇTİNİZ"
+
+    elif (ortalama >= 69) and (ortalama < 76):
+        message = "Ortalamanız" + str(ortalama)
+        durum = "BB-GEÇTİNİZ"
+
+    elif (ortalama >= 76) and (ortalama < 83):
+        message = "Ortalamanız: " + str(ortalama)
+        durum = "BA-GEÇTİNİZ"
+
+    elif (ortalama >= 83) and (ortalama < 93):
+        message = "Ortalamanız" + str(ortalama)
+        durum = "AB-GEÇTİNİZ"
+
+    elif (ortalama >= 93) and (ortalama <= 100):
+        message = "Ortalamanız" + str(ortalama)
+        durum = "AA-GEÇTİNİZ"
+
+    messagebox.showinfo("Sınıf geçme durumu", f"{message} {durum}")
+    veriler.append([ad_soyad, okul_no, ortalama, durum])
+
+
+
+hesapFrame = LabelFrame(text="Ders Geçme Notu Hesapla", width=600, height=600)
+hesapFrame.place(x=10, y=10)
+
+ad_soyadetiket = Label(hesapFrame, text="Ad-Soyad :")
+ad_soyadetiket.place(x=10, y=10)
+ad_soyad_entry = Entry(hesapFrame)
+ad_soyad_entry.place(x=70, y=10)
+
+okul_no_etiket = Label(hesapFrame, text="Okul No :")
+okul_no_etiket.place(x=10, y=30)
+okul_no_entry = Entry(hesapFrame)
+okul_no_entry.place(x=70, y=30)
+
+sinav1Etiket = Label(hesapFrame, text="Vize Notunu Gir:")
+sinav1Etiket.place(x=10, y=90)
+sinav1Entry = Entry(hesapFrame)
+sinav1Entry.place(x=70, y=90)
+sinav2Etiket = Label(hesapFrame, text="Final Notunu Gir:")
+sinav2Etiket.place(x=10, y=120)
+sinav2Entry = Entry(hesapFrame)
+sinav2Entry.place(x=70, y=120)
+btnHesapla = Button(hesapFrame, text="Hesapla", command=hesapla)
+btnHesapla.place(x=140, y=150)
+
+aktar_btn = Button(hesapFrame, text="Excell'e Aktar", command=excele_aktar)
+aktar_btn.place(x=50, y=150)
+
+pencere.mainloop()
